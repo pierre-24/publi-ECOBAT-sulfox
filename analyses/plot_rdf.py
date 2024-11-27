@@ -16,8 +16,6 @@ def plot_system(ax, data: pandas.DataFrame, limits: tuple = (0, 10), label: str=
     
     ax.text(.02, .9, label, transform=ax.transAxes, fontsize=12)
     
-    #ax.plot(data['r'][maxima[0]], data['rdf'][maxima[0]], 'o', color=color)
-    #ax.plot(data['r'][minima[0]], data['rdf'][minima[0]], 'x', color=color)
     for i in maxima[0]:
         ax.annotate(
             '{:.2f} ({:.1f})'.format(data['r'][i], data['cdf'][i]), 
@@ -28,6 +26,7 @@ def plot_system(ax, data: pandas.DataFrame, limits: tuple = (0, 10), label: str=
             color=color,
             ha='right'
         )
+
     for i in minima[0]:
         ax.annotate(
             '{:.2f} ({:.1f})'.format(data['r'][i], data['cdf'][i]), 
@@ -52,23 +51,6 @@ def get_limits(inp: str):
         raise argparse.ArgumentTypeError('`limits` must contain 2 elements')
         
     return limits
-
-def get_annotations(inp: str):
-    pre_annotations = inp.split(',')
-    annotations = []
-    
-    for annotation in pre_annotations:
-        try:
-            limits = [float(x) for x in annotation.split(':')]
-        except ValueError:
-            raise argparse.ArgumentTypeError('annotation must contain float')
-    
-        if len(limits) != 3:
-            raise argparse.ArgumentTypeError('annotation must contain 3 elements')
-        
-        annotations.append(limits)
-        
-    return annotations
 
 parser = argparse.ArgumentParser()
 parser.add_argument('inputs', nargs='*')
